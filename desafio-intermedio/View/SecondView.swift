@@ -9,6 +9,8 @@ import SwiftUI
 
 struct SecondView: View {
     var title: String
+    @AppStorage("ViewTitle") var viewTitle: String = ""
+    @AppStorage("SecondView") var isSecondViewActive: Bool = true
     @State private var isShowingSheet: Bool = false
     
     private let countries: [Country] = [
@@ -74,13 +76,25 @@ struct SecondView: View {
                     .presentationDragIndicator(.visible)
                     .presentationDetents([.medium, .large])
             }
-            .navigationTitle(title)
+            .navigationTitle(viewTitle)
             .navigationBarTitleDisplayMode(.inline)
+            .onAppear {
+                viewTitle = title
+            }
             .toolbar {
+                
+                ToolbarItem(placement: .topBarTrailing) {
+                    NavigationLink(destination: HomeView()) {
+                        Image(systemName: "house.fill")
+                    }
+                    
+                }
+                
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
                         // mostrar modal /  sheet
                         isShowingSheet.toggle()
+                        isSecondViewActive = false
                     } label: {
                         Image(systemName: "info.circle")
                     }

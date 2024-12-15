@@ -8,8 +8,23 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    @AppStorage("SecondView") var isSecondViewActive: Bool = false
+    @AppStorage("ViewTitle") var viewTitle: String = ""
+    
     var body: some View {
-        HomeView()
+        NavigationStack {
+            ZStack {
+                if isSecondViewActive {
+                    SecondView(title: viewTitle)
+                } else {
+                    HomeView()
+                        .onAppear {
+                            viewTitle = ""
+                        }
+                }
+            }
+        }
     }
 }
 
